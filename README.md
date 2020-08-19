@@ -1,2 +1,2 @@
 # sdic-app
-国投移动 APP
+锦州银行pad APP
