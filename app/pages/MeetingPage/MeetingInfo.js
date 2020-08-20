@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, FlatList, TouchableOpacity } from 'react
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import NoData from '../../components/NoData'
+import StarRating from 'react-native-star-rating';
 /**
  * 右侧的会议信息页面
  */
@@ -17,6 +18,7 @@ class MeetingInfo extends React.Component {
     this.state = {
       meetingItem: null,
       topicArr: null,
+      starCount: 3.5
     };
   }
 
@@ -42,21 +44,29 @@ class MeetingInfo extends React.Component {
       topicArr: meetingInfo.process
     });
   };
-
+  /**
+   * 点击星星事件
+   * @param {*} rating 数量
+   */
+  onStarRatingPress(rating) {
+    this.setState({
+      starCount: rating
+    });
+  }
   /**
    * 渲染头部 "会议信息"文字和右上角的会议状态
    */
   renderHeader = () => {
     let issueStatus;
-    if(this.state!==null && this.state.meetingItem!==null){
-      const { meetingItem } = this.state;  
+    if (this.state !== null && this.state.meetingItem !== null) {
+      const { meetingItem } = this.state;
       if (meetingItem.issueStatus == 2) {
         issueStatus = '已确定';
-      } else if ( meetingItem.issueStatus == 3) {
+      } else if (meetingItem.issueStatus == 3) {
         issueStatus = '已召开';
       }
     }
-  
+
     return (
       <View
         style={{
@@ -116,8 +126,8 @@ class MeetingInfo extends React.Component {
           value: !meetingItem ? '' : meetingItem.issueAddress,
         })}
         {this.renderMeetingInfoItem(true, {
-          label: '主持人',
-          value: meetingItem && meetingItem.zcrName !== null ? `${meetingItem.zcrName}` : "",
+          label: '拟稿人',
+          value: meetingItem && meetingItem.zcrName !== null ? `${meetingItem.zcrName}  (18170873540)` : "",
         })}
       </View>
     );
@@ -202,7 +212,7 @@ class MeetingInfo extends React.Component {
           <View style={{ width: 5, backgroundColor: '#409EFF', marginRight: 10 }}>
           </View>
           <View style={{ justifyContent: 'center' }}>
-            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#666' }}>会议议题 </Text>
+            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#666' }}>会议议案 </Text>
           </View>
         </View>
         {showData}
@@ -229,9 +239,20 @@ class MeetingInfo extends React.Component {
           style={{
             marginTop: 15,
             marginBottom: 10,
+            flexDirection:'row',
+            // backgroundColor:'pink'
           }}
         >
-          <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#666' }}>{item.meetingTitle}</Text>
+          <Text style={{ flex:1,fontSize: 14, fontWeight: 'bold', color: '#666' }}>{item.meetingTitle}</Text>
+          <StarRating
+            disabled={false}
+            maxStars={5}
+            fullStarColor={'#ffd400'}
+            containerStyle={{flexBasis:150,marginRight:30}}
+            starSize={18}
+            rating={this.state.starCount}
+            selectedStar={(rating) => this.onStarRatingPress(rating)}
+          />
         </View>
         <View
           style={{
@@ -241,11 +262,11 @@ class MeetingInfo extends React.Component {
           }}
         >
           <Text style={{ width: '50%', fontSize: 13, color: '#858585' }}>
-            汇报人：{item.reportUserName}
+            汇报部门：{item.reportUserName}
           </Text>
-          <Text style={{ fontSize: 13, color: '#858585' }}>
+          {/* <Text style={{ fontSize: 13, color: '#858585' }}>
             汇报时长：{item.timeLength}分钟
-          </Text>
+          </Text> */}
         </View>
       </View>
     );
@@ -261,6 +282,7 @@ class MeetingInfo extends React.Component {
           height: 80,
           // backgroundColor:'blue',
           marginLeft: 20,
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           borderColor: '#F2F2F2',
@@ -269,23 +291,36 @@ class MeetingInfo extends React.Component {
         }}
       >
         <TouchableOpacity
-          style={{
-            // 样式
-            // marginBottom: 20,
-            height: 40,
-            width: '60%',
-            borderRadius: 25,
-            borderColor: '#5FAEFF',
-            borderStyle: 'solid',
-            borderWidth: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.isAccept}
           onPress={() => {
             // 点击事件
             console.log('进入详情');
-              this.props.navigation.navigate('MeetingDetail');
-            
+            this.props.navigation.navigate('MeetingDetail');
+
+            // this.props.enterDetailFunc();
+          }}
+        >
+          <Text style={{ fontSize: 16, color: '#5FAEFF' }}>不参会</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.isAccept}
+          onPress={() => {
+            // 点击事件
+            console.log('进入详情');
+            this.props.navigation.navigate('MeetingDetail');
+
+            // this.props.enterDetailFunc();
+          }}
+        >
+          <Text style={{ fontSize: 16, color: '#5FAEFF' }}>参会</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{ ...styles.isAccept, width: '40%' }}
+          onPress={() => {
+            // 点击事件
+            console.log('进入详情');
+            this.props.navigation.navigate('MeetingDetail');
+
             // this.props.enterDetailFunc();
           }}
         >
@@ -336,6 +371,19 @@ const styles = StyleSheet.create({
     color: '#409EFF',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  isAccept: {
+    // 样式
+    // marginBottom: 20,
+    height: 40,
+    width: '20%',
+    borderRadius: 25,
+    borderColor: '#5FAEFF',
+    borderStyle: 'solid',
+    borderWidth: 1,
+    justifyContent: 'center',
+    margin: 20,
+    alignItems: 'center',
   }
 });
 

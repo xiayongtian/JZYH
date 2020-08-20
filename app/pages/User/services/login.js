@@ -2,7 +2,22 @@
  * 登录页服务
  */
 import { get, postJson,postForm } from '../../../utils';
-// const baseUrl='https://202.99.19.174'
+const baseUrl='http://192.168.90.187:8080'
+
+
+/**
+ * 发送短信验证码
+ * @param {JSON} params 
+ */
+export async function loginServer(params) {
+  // const { username, password } = params;
+  const result = postJson({
+    url: `http://192.168.90.187:8080/system/login/login_App?phone=${params.phone}`,
+    // params
+  })
+  return result;
+}
+
 /**
  * 
  * @param {JSON} params

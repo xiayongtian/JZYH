@@ -45,10 +45,10 @@ class BaseInfo extends Component {
         </View>
         <View style={{ flex: 1,}}>
           <View>
-            <View style={styles.unitAndPerson}>
+            {/* <View style={styles.unitAndPerson}>
               <Text style={styles.unitAndPersonAllText}>参会单位和人员</Text>
-            </View>
-            <View>
+            </View> */}
+            {/* <View>
               <View style={styles.unitAndPersonTitle}>
                 <Text style={styles.unitAndPersonAllText}>参会人员</Text>
               </View>
@@ -57,13 +57,13 @@ class BaseInfo extends Component {
               </View>
               <View style={styles.unitAndPersonItem}>
                 <Text style={styles.unitAndPersonText}>出席人：{this.props.data.cxrName}</Text></View>
-            </View>
+            </View> */}
             <View>
               <View style={styles.unitAndPersonTitle}>
-                <Text style={styles.unitAndPersonAllText}>参会单位</Text>
+                <Text style={styles.unitAndPersonAllText}>参会部门</Text>
               </View>
               <View style={StyleSheet.flatten([styles.unitAndPersonItem, { borderBottomWidth: 1, borderBottomColor: '#f4f4f4', }])}>
-                <Text style={styles.unitAndPersonText}>列席单位：{this.props.data.lxdwName}</Text>
+                <Text style={styles.unitAndPersonText}>列席部门：{this.props.data.lxdwName}</Text>
               </View>
             </View>
           </View>

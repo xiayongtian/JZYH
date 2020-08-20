@@ -41,8 +41,8 @@ class Login extends Component {
     // const init = "LANDSCAPE"; // 初始为横屏
     this.state = {
       // username: 'appportal',
-      username: '90000001',
-      // password: 'app@sdicin',
+      username: '15614209693',
+      password: '123456',
       enableLogin: false, // 控制登录按钮可点击状态
       openPassword: true, // 控制密码框是否显示为密码
       smsCode: ''
@@ -88,19 +88,16 @@ class Login extends Component {
     }
   };
 
-  
+
   /**
    * 登录
    */
   login = async () => {
     if (this.state.username.trim() === '') {
-      alert('请输入用户名');
+      ToastUtils.show('请输入用户名！');
       return;
-    } else if (!this.state.smsCode) {
-      ToastUtils.show('验证码不能为空,请先获取验证码！');
-      return
-    } else if (!this.props.user.loginNameInfo) {
-      ToastUtils.show('您的验证码错误,请先获取验证码！');
+    } else if (!this.state.password) {
+      ToastUtils.show('密码不能为空！');
       return
     }
 
@@ -109,26 +106,18 @@ class Login extends Component {
     console.log('ooooooooooooo-----ooooo', this.state.smsCode)
     this.props
       .dispatch({
-        type: 'user/smsDoAuth',
+        type: 'user/login',
         payload: {
-          appId: "padappportal",
-          authPara: {
-            "mobileNum": this.props.user.loginNameInfo.mobile,  //电话
-            "smsCode": this.state.smsCode  //验证码
-          },
-          authType: "sms",
-          device: "web",
-          epsessionId: "",
-          hostname: "MINote2",
-          requestType: "1"
+          phone: this.state.username
         }
       })
       .then(async result => {
         // 设置加载完成
         if (result.status == 'success') {
+          
           console.warn("========获取到的result.data-userstore", result.dataUserstore)
           // 存入storage，防止系统杀死进程之后dataUserstore消失
-          await Storage.set('dataUserstore',result.dataUserstore);
+          await Storage.set('dataUserstore', result.dataUserstore);
           // 存储useruserstore
           serverConfig.dataUserstore = result.dataUserstore
           // console.log("========获取到的userstoreuserstoreuserstore",userstore)
@@ -285,7 +274,7 @@ class Login extends Component {
                 ...styles.subTitleContainer,
                 paddingBottom: bottomHeight,
               }}>
-              <AutoText style={styles.subTitle}>欢迎使用国投移动门户pad版</AutoText>
+              <AutoText style={styles.subTitle}>欢迎使用锦州银行移动门户pad版</AutoText>
             </View>
             <View style={styles.formContainer}>
               <View >
@@ -326,7 +315,7 @@ class Login extends Component {
                     }}
                   />
                 </View>
-                {/* <View
+                <View
                   style={
                     textPassBorder ? styles.passwordFocus : styles.password
                   }>
@@ -360,8 +349,8 @@ class Login extends Component {
                     }}
                     style={styles.placeholder}
                   />
-                </View> */}
-                <View style={{ flex: 1, flexDirection: 'row' }}>
+                </View>
+                {/* <View style={{ flex: 1, flexDirection: 'row' }}>
                   <View style={
                     verificationCodeBorder ? styles.validCodeFocus : styles.verificationCode
                   }>
@@ -404,7 +393,7 @@ class Login extends Component {
 
                       }} />
                   </View>
-                </View>
+                </View> */}
               </View>
             </View>
             {loginViewButton}

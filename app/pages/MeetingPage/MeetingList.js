@@ -134,7 +134,7 @@ class MeetingList extends React.Component {
   getMeetingList = async (isShowLoading, issueType, time) => {
     // 隐藏全局加载，显示上拉下拉加载
     if (isShowLoading == "isShowLoading") {
-      LoadingUtils.show('努力加载中...');
+      // LoadingUtils.show('努力加载中...');
     }
     console.log('进入了---', time)
     let sdate, edate;
@@ -170,11 +170,11 @@ class MeetingList extends React.Component {
     }
     let userid = '';
     // 获取userid
-    if (this.props.subAccounts.userIdInfo.code == 0) {
-      userid = this.props.subAccounts.userIdInfo.data
-    } else {
-      ToastUtils.show(this.props.subAccounts.userIdInfo.msg)
-    }
+    // if (this.props.subAccounts.userIdInfo.code == 0) {
+    //   userid = this.props.subAccounts.userIdInfo.data
+    // } else {
+    //   ToastUtils.show(this.props.subAccounts.userIdInfo.msg)
+    // }
 
     console.log('time---------->', time)
     let pageNum = time ? 1 : this.state.pageNum;
@@ -204,8 +204,8 @@ class MeetingList extends React.Component {
     this.props.dispatch({
       type: 'meetingPage/meetingList',
       payload: {
-        // userid: 165545,
-        userid,
+        userid: 164905,
+        // userid,
         issueType: this.state.selectedIssueType,
         // sdate: '20190825',
         // edate: '20210701',

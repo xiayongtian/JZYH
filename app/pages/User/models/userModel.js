@@ -1,6 +1,6 @@
 // 引入应用配置
 import { createAction, Storage, ToastUtils } from '../../../utils';
-import { checkLoginName,logout, sendVerificationCode, smsDoAuth } from '../services/login';
+import { loginServer, checkLoginName, logout, sendVerificationCode, smsDoAuth } from '../services/login';
 import { cacheConfig } from '../../../config';
 /**
  * 用户 Model
@@ -82,6 +82,41 @@ const userModel = {
       // 返回更新后的 model 内容
       return yield select(state => { return state.user.smsDoAuthInfo });
       // return yield select(state => { console.log('-----state', state); return state.user.smsDoAuthInfo });
+    },
+
+    /**
+     * 登录
+     */
+    *login({ payload }, { call, put, select }) {
+      const username = yield select(state => { return state.user.username });
+      payload.username = username;
+      const response = yield call(loginServer, payload);
+      console.log('response',response)
+      debugger;
+      let result = null;
+      if (response.flag == '1') {
+        // 登录成功
+        // 获取用户信息成功，缓存用户信息及登录状态
+        yield call(Storage.set, cacheConfig.user.USER_INFO, response);
+        result = {
+          isLogin: true,
+          from: 'login',
+        };
+        // 缓存登录状态
+        yield call(Storage.set, cacheConfig.user.IS_LOGIN, true);
+      } else {
+        // 缓存登录状态
+        result = {
+          isLogin: false,
+          from: 'login',
+        };
+        yield call(Storage.set, cacheConfig.user.IS_LOGIN, false);
+
+      }
+      yield put(createAction('updateUserInfo')(result));
+      // 返回更新后的 model 内容
+      return yield select(state => { return state.user.smsDoAuthInfo });
+
     },
 
     /**

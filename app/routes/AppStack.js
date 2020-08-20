@@ -95,16 +95,6 @@ function CustomTabBar({ state, descriptors, navigation }) {
             if (!isFocused && !event.defaultPrevented) {
               navigation.navigate(route.name);
             }
-          } else if (name === 'ContactTab') {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            });
-
-            if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
-            }
           } else {
             ToastUtils.show('敬请期待');
           }
@@ -133,15 +123,15 @@ export default function App() {
     <Stack.Navigator
       headerMode={'none'}
     >
-      {/* 子账号 */}
-      {ChooseSubAccountsStack}
+
       {/* Tab 页配置 */}
       <Stack.Screen
         name="Home"
         component={HomeTabs}
         options={{ headerShown: false }}
       />
-
+      {/* 子账号 */}
+      {ChooseSubAccountsStack}
       {/* 会议 stack 数组 */}
       {MeetingStack}
 

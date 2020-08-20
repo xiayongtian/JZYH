@@ -167,14 +167,22 @@ class Report extends Component {
                   <View style={{ flex: 1 }}>
                     <Text style={styles.reportTitle}>{item.meetingTitle}</Text>
                     <View style={styles.reporthuibao}>
-                      <View style={{ flex: 1 }}>
-                        <Text style={{ fontSize: 13, color: '#666666' }}>
-                          汇报人：{item.reportUserName} ({item.attendUnitName})
-                        </Text>
+                      <View style={{ flex: 1,flexDirection:'row' }}>
+                        <View style={{flexBasis:70,alignItems:'flex-end'}}>
+                          <Text style={{ fontSize: 13, color: '#666666' }}>
+                            议案摘要：
+                          </Text>
+                        </View>
+                        <View style={{flex:1}}>
+                          <Text style={{ fontSize: 13, color: '#666666' }}>
+                            议案摘要： ui摘ui ui摘ui uiui摘ui ui摘ui ui摘ui ui摘ui ui摘ui ui摘ui ui摘ui ui{item.reportUserName} ({item.attendUnitName})
+                          </Text>
+                        </View>
+
                       </View>
                       <View style={{ flexBasis: 170, marginLeft: 35 }}>
                         <Text style={{ fontSize: 13, color: '#666666' }}>
-                          汇报时长：{item.timeLength}分钟
+                          汇报部门：{item.timeLength}分钟
                         </Text>
                       </View>
                     </View>
@@ -282,7 +290,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     borderWidth: 1,
     borderColor: '#f4f4f4',
-    backgroundColor:'#fff',
+    backgroundColor: '#fff',
     borderLeftWidth: 0,
   },
   reportItem: {
